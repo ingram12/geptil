@@ -1,0 +1,51 @@
+# Build artifacts
+/build/
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# Editor/IDE configs
+*.swp
+*.swo
+*.swn
+*~
+.#*
+.vscode/
+.idea/
+*.code-workspace
+
+# macOS crap
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# macOS metadata
+.Spotlight-V100
+.Trashes
+
+# Vulkan SDK config (optional, if generated)
+compile_commands.json
+
+# Logs and dumps
+*.log
+*.stackdump
+core
+
+# CMake (if you ever use it)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Optional backup and temporary files
+*.bak
+*.tmp
+*.old
