@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -O2
+CFLAGS = -std=C17 -Wall -Wextra -Wpedantic -O2
 LDFLAGS = 
 INCLUDES = -Iinclude
 
