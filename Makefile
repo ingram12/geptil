@@ -1,9 +1,9 @@
 CC = clang
-CFLAGS = -std=C17 -Wall -Wextra -Wpedantic -O2
+CFLAGS = -std=c17 -Wall -Wextra -Wpedantic -O2
 LDFLAGS = 
 INCLUDES = -Iinclude
 
-SRC = $(wildcard src/*.c)
+SRC = $(shell find src -name '*.c')
 OBJ = $(SRC:.c=.o)
 BIN = build/ui-lib
 
@@ -19,5 +19,5 @@ $(BIN): $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf build
-	rm -f src/*.o
+	@rm -rf build
+	@find src -name '*.o' -delete
