@@ -19,5 +19,9 @@ $(BIN): $(OBJ)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
+	@echo "Cleaning build artifacts..."
 	@rm -rf build
 	@find src -name '*.o' -delete
+	@find . -type f \( -name '*.log' -o -name '*.tmp' -o -name 'core' \) -delete
+	@find . -name '*.dSYM' -exec rm -rf {} +
+	@echo "Clean complete."
