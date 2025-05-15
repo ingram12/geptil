@@ -1,7 +1,7 @@
 CC = clang
-CFLAGS = -std=c17 -Wall -Wextra -Wpedantic -O2
-LDFLAGS = 
-INCLUDES = -Iinclude
+CFLAGS = -std=c17 -Wall -Wextra -Wpedantic -g -O0
+LDFLAGS = -framework Cocoa -framework QuartzCore -L${VULKAN_SDK}/lib -lvulkan -Wl,-rpath,${VULKAN_SDK}/lib -L/opt/homebrew/Cellar/glfw/3.4/lib -lglfw -Wl,-rpath,/opt/homebrew/Cellar/glfw/3.4/lib
+INCLUDES = -Iinclude -I$(VULKAN_SDK)/include -I/opt/homebrew/Cellar/glfw/3.4/include
 
 SRC = $(shell find src -name '*.c')
 OBJ = $(SRC:.c=.o)
