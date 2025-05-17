@@ -1,5 +1,4 @@
-#ifndef VULKAN_INIT_H
-#define VULKAN_INIT_H
+#pragma once
 
 #include <vulkan/vulkan.h>
 #include <stdbool.h>
@@ -24,12 +23,10 @@ typedef struct {
     GLFWwindow* window;
 } VulkanContext;
 
-VkResult create_vulkan_instance(VulkanContext* ctx, const char* appName);
+VkResult create_vulkan_instance(VulkanContext* ctx, const char* appName, const char* engineName);
 VkResult select_physical_device(VulkanContext* ctx);
 VkResult create_logical_device(VulkanContext* ctx);
 VkResult create_surface(VulkanContext* ctx);
 VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height);
 void destroy_swapchain(VulkanContext* ctx);
 void cleanup_vulkan(VulkanContext* ctx);
-
-#endif /* VULKAN_INIT_H */

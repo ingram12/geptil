@@ -10,12 +10,12 @@
     const bool enableValidationLayers = true;
 #endif
 
-VkResult create_vulkan_instance(VulkanContext* ctx, const char* appName) {
+VkResult create_vulkan_instance(VulkanContext* ctx, const char* appName, const char* engineName) {
     VkApplicationInfo appInfo = {
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
         .pApplicationName = appName,
         .applicationVersion = VK_MAKE_VERSION(1, 0, 0),
-        .pEngineName = "geptil",
+        .pEngineName = engineName,
         .engineVersion = VK_MAKE_VERSION(1, 0, 0),
         .apiVersion = VK_API_VERSION_1_0
     };
