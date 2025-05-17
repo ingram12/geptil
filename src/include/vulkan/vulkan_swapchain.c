@@ -10,7 +10,16 @@ VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height) {
     // Choose surface format
     uint32_t formatCount;
     vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, NULL);
+    if (formatCount == 0) {
+        LOG_ERROR("No surface formats available");
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
+
     VkSurfaceFormatKHR* formats = malloc(sizeof(VkSurfaceFormatKHR) * formatCount);
+    if (!formats) {
+        LOG_ERROR("Failed to allocate memory for surface formats");
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
     vkGetPhysicalDeviceSurfaceFormatsKHR(ctx->physicalDevice, ctx->surface, &formatCount, formats);
 
     VkSurfaceFormatKHR surfaceFormat = formats[0];
@@ -68,13 +77,21 @@ VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height) {
     ctx->swapchainImageFormat = surfaceFormat.format;
     ctx->swapchainExtent = extent;
 
-    // Get swapchain images
     vkGetSwapchainImagesKHR(ctx->device, ctx->swapchain, &ctx->imageCount, NULL);
     ctx->swapchainImages = malloc(sizeof(VkImage) * ctx->imageCount);
+    if (!ctx->swapchainImages) {
+        LOG_ERROR("Failed to allocate memory for swapchain images");
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+
     vkGetSwapchainImagesKHR(ctx->device, ctx->swapchain, &ctx->imageCount, ctx->swapchainImages);
 
-    // Create image views
     ctx->swapchainImageViews = malloc(sizeof(VkImageView) * ctx->imageCount);
+    if (!ctx->swapchainImageViews) {
+        LOG_ERROR("Failed to allocate memory for swapchain image views");
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+
     for (uint32_t i = 0; i < ctx->imageCount; i++) {
         VkImageViewCreateInfo viewInfo = {
             .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
