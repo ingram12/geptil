@@ -21,5 +21,7 @@ typedef struct {
     VkQueue graphicsQueue;
     VkQueue presentQueue;
     VkRenderPass renderPass;
+    VkPipelineLayout pipelineLayout;
+    VkPipeline graphicsPipeline;
     GLFWwindow* window;
 } VulkanContext;

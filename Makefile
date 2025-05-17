@@ -11,9 +11,19 @@ BIN = build/geptil
 PCH = build/vulkan_context.h.pch
 PCH_SRC = src/include/vulkan/vulkan_context.h
 
-.PHONY: all clean
+# 📜 Shaders
+SHADER_DIR = src/include/vulkan/shader
+SHADER_SRC = $(wildcard $(SHADER_DIR)/*.vert) $(wildcard $(SHADER_DIR)/*.frag)
+SHADER_SPV = $(SHADER_SRC:%=%.spv)
 
-all: $(BIN)
+.PHONY: all clean shaders
+
+all: shaders $(BIN)
+
+shaders: $(SHADER_SPV)
+
+%.spv: %
+	glslc $< -o $@
 
 # 🔨 Линкуем бинарник
 $(BIN): $(OBJ)

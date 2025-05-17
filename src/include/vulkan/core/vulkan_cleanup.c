@@ -43,6 +43,14 @@ void destroy_swapchain(VulkanContext* ctx) {
 void cleanup_vulkan(VulkanContext* ctx) {
     destroy_swapchain(ctx);
 
+    if (ctx->graphicsPipeline) {
+        vkDestroyPipeline(ctx->device, ctx->graphicsPipeline, NULL);
+    }
+
+    if (ctx->pipelineLayout) {
+        vkDestroyPipelineLayout(ctx->device, ctx->pipelineLayout, NULL);
+    }
+
     if (ctx->renderPass) {
         vkDestroyRenderPass(ctx->device, ctx->renderPass, NULL);
     }

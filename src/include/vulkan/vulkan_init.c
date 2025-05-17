@@ -58,6 +58,13 @@ VkResult init_vulkan(
         cleanup_vulkan(ctx);
         return result;
     }
+
+    result = create_pipeline(ctx);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to create pipeline: %d", result);
+        cleanup_vulkan(ctx);
+        return result;
+    }
     
     LOG_INFO("Vulkan initialization completed successfully");
     return VK_SUCCESS;
