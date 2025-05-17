@@ -1,9 +1,9 @@
 #include "../logger/logger.h"
-#include "vulkan_instance.h"
-#include "vulkan_device.h"
-#include "vulkan_surface.h"
-#include "vulkan_swapchain.h"
-#include "vulkan_cleanup.h"
+#include "core/vulkan_instance.h"
+#include "core/vulkan_device.h"
+#include "core/vulkan_surface.h"
+#include "core/vulkan_swapchain.h"
+#include "core/vulkan_cleanup.h"
 #include "../window/window.h"
 
 VkResult init_vulkan(
