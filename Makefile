@@ -7,20 +7,34 @@ SRC = $(shell find src -name '*.c')
 OBJ = $(SRC:.c=.o)
 BIN = build/geptil
 
+# 🔧 PCH
+PCH = build/vulkan_context.h.pch
+PCH_SRC = src/include/vulkan/vulkan_context.h
+
 .PHONY: all clean
 
 all: $(BIN)
 
+# 🔨 Линкуем бинарник
 $(BIN): $(OBJ)
 	@mkdir -p build
 	$(CC) $(OBJ) -o $@ $(LDFLAGS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+# 🔄 Компиляция с PCH
+%.o: %.c $(PCH)
+	$(CC) $(CFLAGS) $(INCLUDES) -include-pch $(PCH) -c $< -o $@
 
+# 🧠 Сборка PCH
+$(PCH): $(PCH_SRC)
+	@mkdir -p build
+	$(CC) $(CFLAGS) $(INCLUDES) -x c-header $< -o $@
+
+# 🧹 Очистка
 clean:
 	@echo "Cleaning build artifacts..."
 	@find src -name '*.o' -delete
+	@rm -f $(BIN)
+	@rm -f $(PCH)
 	@find . -type f \( -name '*.log' -o -name '*.tmp' -o -name 'core' \) -delete
 	@find . -name '*.dSYM' -exec rm -rf {} +
 	@echo "Clean complete."
