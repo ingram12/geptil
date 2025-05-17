@@ -5,6 +5,16 @@
 void destroy_swapchain(VulkanContext* ctx) {
     if (!ctx || !ctx->device) return;
 
+    if (ctx->swapchainFramebuffers) {
+        for (uint32_t i = 0; i < ctx->imageCount; i++) {
+            if (ctx->swapchainFramebuffers[i]) {
+                vkDestroyFramebuffer(ctx->device, ctx->swapchainFramebuffers[i], NULL);
+            }
+        }
+        free(ctx->swapchainFramebuffers);
+        ctx->swapchainFramebuffers = NULL;
+    }
+
     if (ctx->swapchainImageViews) {
         for (uint32_t i = 0; i < ctx->imageCount; i++) {
             if (ctx->swapchainImageViews[i]) {

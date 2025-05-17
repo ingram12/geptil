@@ -16,6 +16,7 @@ typedef struct {
     uint32_t imageCount;
     VkImage* swapchainImages;
     VkImageView* swapchainImageViews;
+    VkFramebuffer* swapchainFramebuffers;
     uint32_t graphicsQueueFamily;
     VkQueue graphicsQueue;
     VkQueue presentQueue;
