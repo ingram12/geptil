@@ -18,6 +18,7 @@
 .vscode/
 .idea/
 *.code-workspace
+.clangd
 
 # macOS crap
 .DS_Store
