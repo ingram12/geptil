@@ -19,5 +19,6 @@ typedef struct {
     uint32_t graphicsQueueFamily;
     VkQueue graphicsQueue;
     VkQueue presentQueue;
+    VkRenderPass renderPass;
     GLFWwindow* window;
 } VulkanContext;

@@ -33,6 +33,10 @@ void destroy_swapchain(VulkanContext* ctx) {
 void cleanup_vulkan(VulkanContext* ctx) {
     destroy_swapchain(ctx);
 
+    if (ctx->renderPass) {
+        vkDestroyRenderPass(ctx->device, ctx->renderPass, NULL);
+    }
+
     if (ctx->device) {
         vkDestroyDevice(ctx->device, NULL);
     }
