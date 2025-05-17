@@ -15,6 +15,10 @@ VkResult initWindow(VulkanContext* ctx, uint32_t width, uint32_t height) {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     ctx->window = glfwCreateWindow(width, height, "geptil", NULL, NULL);
+    if (!ctx->window) {
+        LOG_ERROR("Failed to create GLFW window");
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
 
     LOG_INFO("Window created successfully");
     return VK_SUCCESS;
