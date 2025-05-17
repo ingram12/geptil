@@ -22,8 +22,11 @@ all: shaders $(BIN)
 
 shaders: $(SHADER_SPV)
 
-%.spv: %
-	glslc $< -o $@
+%.vert.spv: %.vert
+	glslc -fshader-stage=vert --target-env=vulkan $< -o $@
+
+%.frag.spv: %.frag
+	glslc -fshader-stage=frag --target-env=vulkan $< -o $@
 
 # 🔨 Линкуем бинарник
 $(BIN): $(OBJ)
