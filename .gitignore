@@ -37,7 +37,6 @@ compile_commands.json
 # Logs and dumps
 *.log
 *.stackdump
-core
 
 # CMake (if you ever use it)
 CMakeFiles/
