@@ -48,3 +48,6 @@ compile_commands.json
 *.bak
 *.tmp
 *.old
+
+# Shaders compiled by the shader compiler
+*.spv
