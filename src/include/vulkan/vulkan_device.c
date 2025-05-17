@@ -12,6 +12,10 @@ VkResult select_physical_device(VulkanContext* ctx) {
     }
 
     VkPhysicalDevice* devices = malloc(sizeof(VkPhysicalDevice) * deviceCount);
+    if (!devices) {
+        LOG_ERROR("Failed to allocate memory for physical devices");
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
     vkEnumeratePhysicalDevices(ctx->instance, &deviceCount, devices);
 
     // Select first suitable device
@@ -47,6 +51,10 @@ VkResult create_logical_device(VulkanContext* ctx) {
     uint32_t queueFamilyCount = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(ctx->physicalDevice, &queueFamilyCount, NULL);
     VkQueueFamilyProperties* queueFamilies = malloc(sizeof(VkQueueFamilyProperties) * queueFamilyCount);
+    if (!queueFamilies) {
+        LOG_ERROR("Failed to allocate memory for queue families");
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
     vkGetPhysicalDeviceQueueFamilyProperties(ctx->physicalDevice, &queueFamilyCount, queueFamilies);
 
     // Find graphics queue family
