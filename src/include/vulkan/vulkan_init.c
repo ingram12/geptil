@@ -1,9 +1,9 @@
-#include "vulkan_init.h"
+#include "vulkan_context.h"
 #include "../logger/logger.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-// Validation layers (for debugging)
 #ifdef NDEBUG
     const bool enableValidationLayers = false;
 #else
