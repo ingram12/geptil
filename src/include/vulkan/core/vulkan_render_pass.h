@@ -2,4 +2,4 @@
 
 #include "../vulkan_context.h"
 
-VkResult create_reder_pass(VulkanContext* ctx);
+VkResult create_render_pass(VulkanContext* ctx);

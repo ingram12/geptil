@@ -1,7 +1,12 @@
 #include "../vulkan_context.h"
 #include "../../logger/logger.h"
 
-VkResult create_reder_pass(VulkanContext* ctx) {
+VkResult create_render_pass(VulkanContext* ctx) {
+    if (ctx->renderPass != VK_NULL_HANDLE) {
+        vkDestroyRenderPass(ctx->device, ctx->renderPass, NULL);
+        ctx->renderPass = VK_NULL_HANDLE;
+    }
+
     VkAttachmentDescription colorAttachment = {
         .format = ctx->swapchainImageFormat,
         .samples = VK_SAMPLE_COUNT_1_BIT,
