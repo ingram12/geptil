@@ -1,4 +1,3 @@
-#include <GLFW/glfw3.h>
 #include "../logger/logger.h"
 #include "../vulkan/vulkan_context.h"
 
