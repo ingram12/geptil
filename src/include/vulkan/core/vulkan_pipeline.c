@@ -20,7 +20,6 @@ static VkShaderModule create_shader_module(VulkanContext* ctx, const uint32_t* c
 }
 
 VkResult create_pipeline(VulkanContext* ctx) {
-    // Pipeline layout
     VkPipelineLayoutCreateInfo pipelineLayoutInfo = {
         .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
         .setLayoutCount = 0,
@@ -32,7 +31,6 @@ VkResult create_pipeline(VulkanContext* ctx) {
         return VK_ERROR_INITIALIZATION_FAILED;
     }
 
-    // For now, we'll create a simple pipeline that just fills the screen with a color
     VkPipelineVertexInputStateCreateInfo vertexInputInfo = {
         .sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO,
         .vertexBindingDescriptionCount = 0,
@@ -97,7 +95,6 @@ VkResult create_pipeline(VulkanContext* ctx) {
         .pAttachments = &colorBlendAttachment
     };
 
-    // Load shader code from files
     uint32_t* vertShaderCode = NULL;
     size_t vertShaderCodeSize = 0;
     VkResult result = load_shader_code("src/include/vulkan/shader/triangle.vert.spv", &vertShaderCode, &vertShaderCodeSize);
@@ -162,14 +159,13 @@ VkResult create_pipeline(VulkanContext* ctx) {
 
     result = vkCreateGraphicsPipelines(ctx->device, VK_NULL_HANDLE, 1, &pipelineInfo, NULL, &ctx->graphicsPipeline);
     
-    // Clean up shader modules
-    vkDestroyShaderModule(ctx->device, fragShaderModule, NULL);
-    vkDestroyShaderModule(ctx->device, vertShaderModule, NULL);
-
     if (result != VK_SUCCESS) {
         LOG_ERROR("Failed to create graphics pipeline");
         return result;
     }
+
+    vkDestroyShaderModule(ctx->device, fragShaderModule, NULL);
+    vkDestroyShaderModule(ctx->device, vertShaderModule, NULL);
 
     LOG_INFO("Graphics pipeline created successfully");
     return VK_SUCCESS;
