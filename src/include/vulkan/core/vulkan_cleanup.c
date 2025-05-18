@@ -35,8 +35,6 @@ void destroy_swapchain(VulkanContext* ctx) {
         ctx->swapchain = VK_NULL_HANDLE;
     }
 
-    ctx->imageCount = 0;
-
     LOG_INFO("Swapchain destroyed");
 }
 

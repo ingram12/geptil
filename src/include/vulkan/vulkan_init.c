@@ -64,16 +64,16 @@ VkResult init_vulkan(
         return result;
     }
 
-    result = create_framebuffers(ctx);
+    result = create_render_pass(ctx);
     if (result != VK_SUCCESS) {
-        LOG_ERROR("Failed to create framebuffers: %d", result);
+        LOG_ERROR("Failed to create render pass: %d", result);
         cleanup_vulkan(ctx);
         return result;
     }
 
-    result = create_render_pass(ctx);
+    result = create_framebuffers(ctx);
     if (result != VK_SUCCESS) {
-        LOG_ERROR("Failed to create render pass: %d", result);
+        LOG_ERROR("Failed to create framebuffers: %d", result);
         cleanup_vulkan(ctx);
         return result;
     }
