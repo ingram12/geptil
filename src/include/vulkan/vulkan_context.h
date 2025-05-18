@@ -31,4 +31,10 @@ typedef struct {
     VkCommandPool commandPool;
     VkCommandBuffer* commandBuffers;
     GLFWwindow* window;
+
+    VkSemaphore* imageAvailableSemaphores;
+    VkSemaphore* renderFinishedSemaphores;
+    VkFence* inFlightFences;
+    uint32_t maxFramesInFlight;
+    uint32_t currentFrame;
 } VulkanContext;

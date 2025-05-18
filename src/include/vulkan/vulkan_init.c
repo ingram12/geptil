@@ -9,6 +9,7 @@
 #include "core/vulkan_framebuffer.h"
 #include "core/vulkan_command_pool.h"
 #include "core/vulkan_command_buffer.h"
+#include "core/vulkan_sync.h"
 #include "../window/window.h"
 
 VkResult init_vulkan(
@@ -95,6 +96,13 @@ VkResult init_vulkan(
     result = create_command_buffers(ctx);
     if (result != VK_SUCCESS) {
         LOG_ERROR("Failed to create command buffers: %d", result);
+        cleanup_vulkan(ctx);
+        return result;
+    }
+
+    result = create_sync_objects(ctx);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to create synchronization objects: %d", result);
         cleanup_vulkan(ctx);
         return result;
     }

@@ -1,5 +1,6 @@
 #include "../../logger/logger.h"
 #include "../vulkan_context.h"
+#include "vulkan_sync.h"
 #include <stdlib.h>
 
 void destroy_swapchain(VulkanContext* ctx) {
@@ -40,6 +41,9 @@ void destroy_swapchain(VulkanContext* ctx) {
 
 void cleanup_vulkan(VulkanContext* ctx) {
     destroy_swapchain(ctx);
+
+    // Clean up sync objects
+    cleanup_sync_objects(ctx);
 
     if (ctx->graphicsPipeline) {
         vkDestroyPipeline(ctx->device, ctx->graphicsPipeline, NULL);
