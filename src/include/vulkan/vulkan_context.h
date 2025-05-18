@@ -4,6 +4,10 @@
 #include <GLFW/glfw3.h>
 
 typedef struct {
+    uint32_t graphicsFamily;
+} QueueFamilyIndices;
+
+typedef struct {
     uint32_t width;
     uint32_t height;
     VkInstance instance;
@@ -17,11 +21,13 @@ typedef struct {
     VkImage* swapchainImages;
     VkImageView* swapchainImageViews;
     VkFramebuffer* swapchainFramebuffers;
+    QueueFamilyIndices queueFamilyIndices;
     uint32_t graphicsQueueFamily;
     VkQueue graphicsQueue;
     VkQueue presentQueue;
     VkRenderPass renderPass;
     VkPipelineLayout pipelineLayout;
     VkPipeline graphicsPipeline;
+    VkCommandPool commandPool;
     GLFWwindow* window;
 } VulkanContext;

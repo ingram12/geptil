@@ -7,6 +7,7 @@
 #include "core/vulkan_render_pass.h"
 #include "core/vulkan_pipeline.h"
 #include "core/vulkan_framebuffer.h"
+#include "core/vulkan_command_pool.h"
 #include "../window/window.h"
 
 VkResult init_vulkan(
@@ -79,6 +80,13 @@ VkResult init_vulkan(
     result = create_pipeline(ctx);
     if (result != VK_SUCCESS) {
         LOG_ERROR("Failed to create pipeline: %d", result);
+        cleanup_vulkan(ctx);
+        return result;
+    }
+
+    result = create_command_pool(ctx);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to create command pool: %d", result);
         cleanup_vulkan(ctx);
         return result;
     }

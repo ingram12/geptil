@@ -51,6 +51,11 @@ void cleanup_vulkan(VulkanContext* ctx) {
         vkDestroyPipelineLayout(ctx->device, ctx->pipelineLayout, NULL);
     }
 
+    if (ctx->commandPool) {
+        vkDestroyCommandPool(ctx->device, ctx->commandPool, NULL);
+        ctx->commandPool = VK_NULL_HANDLE;
+    }
+
     if (ctx->renderPass) {
         vkDestroyRenderPass(ctx->device, ctx->renderPass, NULL);
     }
