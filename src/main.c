@@ -1,9 +1,9 @@
-#define GLFW_INCLUDE_VULKAN
-#define GLFW_INCLUDE_GLCOREARB
 #include "include/vulkan/vulkan_init.h"
+#include "include/vulkan/vulkan_draw.h"
 #include "include/vulkan/core/vulkan_cleanup.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 int main(void) {
     VulkanContext ctx = {0};
@@ -11,6 +11,7 @@ int main(void) {
 
     while (!glfwWindowShouldClose(ctx.window)) {
         glfwPollEvents();
+        draw_frame(&ctx);
     }
     
     cleanup_vulkan(&ctx);

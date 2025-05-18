@@ -1,5 +1,8 @@
 #include "../vulkan_context.h"
 #include "../../logger/logger.h"
+#include "vulkan_cleanup.h"
+#include "vulkan_framebuffer.h"
+#include "vulkan_sync.h"
 #include <stdlib.h>
 
 VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height) {
@@ -37,14 +40,19 @@ VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height) {
         .height = height
     };
 
-    if (extent.width > capabilities.maxImageExtent.width)
-        extent.width = capabilities.maxImageExtent.width;
-    if (extent.width < capabilities.minImageExtent.width)
-        extent.width = capabilities.minImageExtent.width;
-    if (extent.height > capabilities.maxImageExtent.height)
-        extent.height = capabilities.maxImageExtent.height;
-    if (extent.height < capabilities.minImageExtent.height)
-        extent.height = capabilities.minImageExtent.height;
+    if (capabilities.currentExtent.width != UINT32_MAX) {
+        extent = capabilities.currentExtent;
+    } else {
+        if (extent.width > capabilities.maxImageExtent.width)
+            extent.width = capabilities.maxImageExtent.width;
+        if (extent.width < capabilities.minImageExtent.width)
+            extent.width = capabilities.minImageExtent.width;
+        if (extent.height > capabilities.maxImageExtent.height)
+            extent.height = capabilities.maxImageExtent.height;
+        if (extent.height < capabilities.minImageExtent.height)
+            extent.height = capabilities.minImageExtent.height;
+    }
+
 
     uint32_t imageCount = capabilities.minImageCount + 1;
     if (capabilities.maxImageCount > 0 && imageCount > capabilities.maxImageCount) {
@@ -116,5 +124,41 @@ VkResult create_swapchain(VulkanContext* ctx, uint32_t width, uint32_t height) {
     }
 
     LOG_INFO("Swapchain created successfully");
+    return VK_SUCCESS;
+}
+
+VkResult recreate_swapchain(VulkanContext* ctx) {
+    LOG_INFO("Recreating swapchain with dimensions %dx%d", ctx->width, ctx->height);
+    
+    // Wait for device to be idle before destroying resources
+    vkDeviceWaitIdle(ctx->device);
+    
+    // Clean up old swapchain resources
+    destroy_swapchain(ctx);
+    
+    // Create new swapchain
+    VkResult result = create_swapchain(ctx, ctx->width, ctx->height);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to create new swapchain");
+        return result;
+    }
+    
+    // Recreate framebuffers
+    result = create_framebuffers(ctx);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to recreate framebuffers");
+        return result;
+    }
+
+    cleanup_sync_objects(ctx);
+
+    // Recreate framebuffers
+    result = create_sync_objects(ctx);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to recreate synchronization objects");
+        return result;
+    }
+    
+    LOG_INFO("Swapchain recreation completed successfully");
     return VK_SUCCESS;
 }

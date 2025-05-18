@@ -23,8 +23,15 @@ VkResult init_vulkan(
 
     ctx->width = width;
     ctx->height = height;
+
+    VkResult result = initWindow(ctx, ctx->width, ctx->height);
+    if (result != VK_SUCCESS) {
+        LOG_ERROR("Failed to create window: %d", result);
+        cleanup_vulkan(ctx);
+        return result;
+    }
     
-    VkResult result = create_vulkan_instance(ctx, appName, engineName);
+    result = create_vulkan_instance(ctx, appName, engineName);
     if (result != VK_SUCCESS) {
         LOG_ERROR("Failed to create Vulkan instance: %d", result);
         return result;
@@ -40,13 +47,6 @@ VkResult init_vulkan(
     result = create_logical_device(ctx);
     if (result != VK_SUCCESS) {
         LOG_ERROR("Failed to create logical device: %d", result);
-        cleanup_vulkan(ctx);
-        return result;
-    }
-
-    result = initWindow(ctx, ctx->width, ctx->height);
-    if (result != VK_SUCCESS) {
-        LOG_ERROR("Failed to create window: %d", result);
         cleanup_vulkan(ctx);
         return result;
     }
@@ -106,6 +106,44 @@ VkResult init_vulkan(
         cleanup_vulkan(ctx);
         return result;
     }
+    
+    LOG_INFO("=== Vulkan Context State After Initialization ===");
+    LOG_INFO("Basic Info:");
+    LOG_INFO("- Window dimensions: %dx%d", ctx->width, ctx->height);
+    LOG_INFO("- Current frame: %d", ctx->currentFrame);
+    LOG_INFO("- Max frames in flight: %d", ctx->maxFramesInFlight);
+    
+    LOG_INFO("\nSwapchain Info:");
+    LOG_INFO("- Image count: %d", ctx->imageCount);
+    LOG_INFO("- Format: %d", ctx->swapchainImageFormat);
+    LOG_INFO("- Extent: %dx%d", ctx->swapchainExtent.width, ctx->swapchainExtent.height);
+    
+    LOG_INFO("\nQueue Info:");
+    LOG_INFO("- Graphics queue family index: %d", ctx->graphicsQueueFamily);
+    LOG_INFO("- Queue family indices:");
+    LOG_INFO("  - Graphics family: %d", ctx->queueFamilyIndices.graphicsFamily);
+    
+    LOG_INFO("\nHandle Status:");
+    LOG_INFO("- Instance: %p", (void*)ctx->instance);
+    LOG_INFO("- Physical Device: %p", (void*)ctx->physicalDevice);
+    LOG_INFO("- Logical Device: %p", (void*)ctx->device);
+    LOG_INFO("- Surface: %p", (void*)ctx->surface);
+    LOG_INFO("- Swapchain: %p", (void*)ctx->swapchain);
+    LOG_INFO("- Render Pass: %p", (void*)ctx->renderPass);
+    LOG_INFO("- Pipeline Layout: %p", (void*)ctx->pipelineLayout);
+    LOG_INFO("- Graphics Pipeline: %p", (void*)ctx->graphicsPipeline);
+    LOG_INFO("- Command Pool: %p", (void*)ctx->commandPool);
+    LOG_INFO("- Window Handle: %p", (void*)ctx->window);
+    
+    LOG_INFO("\nResource Arrays Status:");
+    LOG_INFO("- Swapchain Images: %p", (void*)ctx->swapchainImages);
+    LOG_INFO("- Swapchain Image Views: %p", (void*)ctx->swapchainImageViews);
+    LOG_INFO("- Swapchain Framebuffers: %p", (void*)ctx->swapchainFramebuffers);
+    LOG_INFO("- Command Buffers: %p", (void*)ctx->commandBuffers);
+    LOG_INFO("- Image Available Semaphores: %p", (void*)ctx->imageAvailableSemaphores);
+    LOG_INFO("- Render Finished Semaphores: %p", (void*)ctx->renderFinishedSemaphores);
+    LOG_INFO("- In Flight Fences: %p", (void*)ctx->inFlightFences);
+    LOG_INFO("=======================================");
     
     LOG_INFO("Vulkan initialization completed successfully");
     return VK_SUCCESS;

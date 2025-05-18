@@ -40,10 +40,10 @@ void destroy_swapchain(VulkanContext* ctx) {
 }
 
 void cleanup_vulkan(VulkanContext* ctx) {
-    destroy_swapchain(ctx);
+    vkDeviceWaitIdle(ctx->device);
 
-    // Clean up sync objects
     cleanup_sync_objects(ctx);
+    destroy_swapchain(ctx);
 
     if (ctx->graphicsPipeline) {
         vkDestroyPipeline(ctx->device, ctx->graphicsPipeline, NULL);
