@@ -29,5 +29,6 @@ typedef struct {
     VkPipelineLayout pipelineLayout;
     VkPipeline graphicsPipeline;
     VkCommandPool commandPool;
+    VkCommandBuffer* commandBuffers;  // Array of command buffers
     GLFWwindow* window;
 } VulkanContext;

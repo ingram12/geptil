@@ -52,6 +52,11 @@ void cleanup_vulkan(VulkanContext* ctx) {
     }
 
     if (ctx->commandPool) {
+        if (ctx->commandBuffers) {
+            vkFreeCommandBuffers(ctx->device, ctx->commandPool, ctx->imageCount, ctx->commandBuffers);
+            free(ctx->commandBuffers);
+            ctx->commandBuffers = NULL;
+        }
         vkDestroyCommandPool(ctx->device, ctx->commandPool, NULL);
         ctx->commandPool = VK_NULL_HANDLE;
     }
